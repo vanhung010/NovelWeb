@@ -1,0 +1,70 @@
+package project.projectmanagernovel.entry;
+
+public class Chapter {
+    private int idChapter;
+    private Novel novel;
+    private int chapterNumber;
+    private String title;
+    private String content;
+    private int viewCount;
+
+    public Chapter(int idChapter, Novel novel, int chapterNumber, String title, String content, int viewCount) {
+        this.idChapter = idChapter;
+        this.novel = novel;
+        this.chapterNumber = chapterNumber;
+        this.title = title;
+        this.content = content;
+        this.viewCount = viewCount;
+    }
+
+    public Chapter() {
+    }
+
+    public int getChapterNumber() {
+        return chapterNumber;
+    }
+
+    public void setChapterNumber(int chapterNumber) {
+        this.chapterNumber = chapterNumber;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public String getContent() {
+        return content;
+    }
+
+    public void setContent(String content) {
+        this.content = content;
+    }
+
+    public int getViewCount() {
+        return viewCount;
+    }
+
+    public void setViewCount(int viewCount) {
+        this.viewCount = viewCount;
+    }
+
+    public int getIdChapter() {
+        return idChapter;
+    }
+
+    public void setIdChapter(int idChapter) {
+        this.idChapter = idChapter;
+    }
+
+    public Novel getNovel() {
+        return novel;
+    }
+
+    public void setNovel(Novel novel) {
+        this.novel = novel;
+    }
+}
