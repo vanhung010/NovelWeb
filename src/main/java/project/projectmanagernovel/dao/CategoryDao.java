@@ -15,12 +15,12 @@ public class CategoryDao {
 
     //thêm thể loại
     public void addCategoryDao(Category category){
-        String query = "INSERT INTO category(id_category, name, description) "+
+        String query = "INSERT INTO category(name, description) "+
                 "VALUES (?,?,?)";
         try(PreparedStatement preparedStatement = DBConnect.getConnection().prepareStatement(query)){
-            preparedStatement.setInt(1, category.getIdCategory());
-            preparedStatement.setString(2, category.getName());
-            preparedStatement.setString(3, category.getDescription());
+
+            preparedStatement.setString(1, category.getName());
+            preparedStatement.setString(2, category.getDescription());
             int affectRow = preparedStatement.executeUpdate();
         }
         catch (SQLException e){
@@ -65,4 +65,31 @@ public class CategoryDao {
         return  result;
     }
 
+    // Lấy danh sách tất cả thể loại
+    public List<Category> getAllCategories() { // Đổi tên hàm thành số nhiều
+
+        List<Category> result = new ArrayList<>();
+        String query = "SELECT id_category, name, description FROM category";
+
+
+        try (Connection connection = DBConnect.getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(query);
+             ResultSet resultSet = preparedStatement.executeQuery()) {
+
+            while (resultSet.next()) {
+                result.add(new Category(
+                        resultSet.getInt("id_category"),
+                        resultSet.getString("name"),
+                        resultSet.getString("description")
+                ));
+            }
+
+        } catch (SQLException e) {
+            System.out.println("Lỗi tại getAllCategories: " + e.getMessage());
+            e.printStackTrace();
+        }
+
+
+        return result;
+    }
 }

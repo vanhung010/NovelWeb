@@ -1,5 +1,6 @@
 package project.projectmanagernovel.entry;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Novel {
@@ -9,6 +10,7 @@ public class Novel {
     private String description; //mô tả truyên
     private String coverImage;
     private String status;
+    private int totalViews;
     private List<Category> categoryList;
     private List<Chapter> chapterList;
 
@@ -28,6 +30,14 @@ public class Novel {
         this.chapterList = chapterList;
     }
 
+    public int getTotalViews() {
+        return totalViews;
+    }
+
+    public void setTotalViews(int totalViews) {
+        this.totalViews = totalViews;
+    }
+
     public Novel(int idNovel, String title, Author author, String description, String coverImage, String status, List<Category> categoryList) {
         this.idNovel = idNovel;
         this.title = title;
@@ -39,6 +49,9 @@ public class Novel {
     }
 
     public Novel() {
+        this.categoryList = new ArrayList<>();
+        this.chapterList = new ArrayList<>();
+
     }
 
     public int getIdNovel() {
