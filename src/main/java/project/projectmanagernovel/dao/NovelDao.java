@@ -230,4 +230,35 @@ public class NovelDao {
             }
         return result;
     }
+
+    //lấy chi tiết truyện
+    public Novel getDetailNovel(int idNovels){
+        Novel novel = new Novel();
+        String query = "SELECT n.title, n.cover_image,n.discription, n.status, at.pen_name, ct.name, c.Max(chapter_number) AS max_chapter, n.total_views " +
+                "FROM novel AS n " +
+                "JOIN LEFT author AS at ON n.id_author = at.id_author " +
+                "JOIN LEFT novel_category AS ct ON ct.id_novel = n.id_novel " +
+                "JOIN LEFT chapter AS c ON c.id_novel = n.id_novel " +
+                "WHERE n.id_novel = ?";
+        try(Connection connection = DBConnect.getConnection();
+        PreparedStatement preparedStatement = connection.prepareStatement(query);
+        ResultSet resultSet = preparedStatement.executeQuery()){
+            preparedStatement.setInt(idNovels);
+            Chapter chapter = new Chapter();
+            Author author = new Author();
+
+            //gắn giá trị
+            //gắn giá trị novel
+            novel.setTitle(resultSet.getString("title"));
+            novel.setDescription(resultSet.getString("discription"));
+            novel.setStatus(resultSet.getString("status"));
+            novel.setTotalViews(resultSet.getInt("total_views"));
+            novel.getChapterList().add(chapter)
+            //gắn giá trị chapter
+            chapter.setChapterNumber(resultSet.getInt("max_chapter"));
+            //gắn giá trị author
+            author.setPername(resultSet.getString("pen_name"));
+
+        }
+    }
 }
