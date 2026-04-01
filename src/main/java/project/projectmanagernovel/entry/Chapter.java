@@ -40,6 +40,11 @@ public class Chapter {
         return content;
     }
 
+    @Override
+    public String toString() {
+        return title;
+    }
+
     public void setContent(String content) {
         this.content = content;
     }

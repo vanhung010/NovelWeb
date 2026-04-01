@@ -118,26 +118,36 @@ public class NovelDao {
     //lấy 4 truyện đề cử
     public List<Novel> getFeaturedNovels(){
         List<Novel> result = new ArrayList<>();
-        String query = "SELECT n.title, n.cover_image, n.status, at.pen_name " +
+
+        // 1. Sửa lại thứ tự SQL và bổ sung n.id_novel
+        String query = "SELECT n.id_novel, n.cover_image, n.title, n.status, at.pen_name " +
                 "FROM novel AS n " +
-                "LEFT JOIN author AS at " +
-                "WHRE n.status = 'UPDATING' "+
-                "ON n.id_author = at.id_author " +
-                "ORDER BY RANDOM() LIMIT 4 ";
-        try(Connection connection = DBConnect.getConnection();
-        PreparedStatement preparedStatement = connection.prepareStatement(query);
-        ResultSet resultSet = preparedStatement.executeQuery()){
-            while (resultSet.next()){
+                "LEFT JOIN author AS at ON n.id_author = at.id_author " +
+                "WHERE n.status = 'Completed' " +
+                "ORDER BY RANDOM() LIMIT 4";
+
+        try (Connection connection = DBConnect.getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(query);
+             ResultSet resultSet = preparedStatement.executeQuery()) {
+
+            while (resultSet.next()) {
                 Author author = new Author();
                 author.setPername(resultSet.getString("pen_name"));
+
                 Novel novel = new Novel();
                 novel.setAuthor(author);
+
+
+
+                novel.setIdNovel(resultSet.getInt("id_novel"));
                 novel.setTitle(resultSet.getString("title"));
                 novel.setCoverImage(resultSet.getString("cover_image"));
+                novel.setStatus(resultSet.getString("status"));
+
                 result.add(novel);
             }
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            e.printStackTrace();
         }
         return result;
     }
@@ -145,27 +155,45 @@ public class NovelDao {
     //lấy 3 mới cập nhật
     public List<Novel> getRecentlyUpdatedNovels(){
         List<Novel> result = new ArrayList<>();
-        String query = "SELECT n.id_novel, n.title, chap.title, chap.created_at,chap.chapter_number, at.pen_name " +
+
+        // SỬA LỖI 1: Thêm bí danh (AS novel_title, AS chapter_title) để phân biệt 2 cột
+        String query = "SELECT n.id_novel, n.title AS novel_title, chap.title AS chapter_title, chap.created_at, chap.chapter_number, at.pen_name " +
                 "FROM chapter AS chap " +
                 "LEFT JOIN novel AS n ON chap.id_novel = n.id_novel " +
                 "LEFT JOIN author AS at ON n.id_author = at.id_author " +
                 "ORDER BY chap.created_at DESC " +
                 "LIMIT 3";
+
         try(Connection connection = DBConnect.getConnection();
-        PreparedStatement preparedStatement = connection.prepareStatement(query);
-        ResultSet resultSet = preparedStatement.executeQuery()){
+            PreparedStatement preparedStatement = connection.prepareStatement(query);
+            ResultSet resultSet = preparedStatement.executeQuery()) {
+
+            CategoryDao categoryDao = new CategoryDao(); // Nên đưa ra ngoài vòng while để tối ưu hiệu suất
+
             while (resultSet.next()){
-                CategoryDao categoryDao = new CategoryDao();
                 Author author = new Author();
                 Chapter chapter = new Chapter();
                 Novel novel = new Novel();
+
                 int idNovel = resultSet.getInt("id_novel");
+
+                // SỬA LỖI 2: Dùng đúng bí danh để lấy Tên Chương
                 chapter.setChapterNumber(resultSet.getInt("chapter_number"));
+                chapter.setTitle(resultSet.getString("chapter_title"));
+
                 author.setPername(resultSet.getString("pen_name"));
+
+                // SỬA LỖI 3: Bổ sung set Tên Truyện (novel_title)
                 novel.setIdNovel(idNovel);
+                novel.setTitle(resultSet.getString("novel_title"));
                 novel.setAuthor(author);
+
+                // LƯU Ý: Class Novel BẮT BUỘC phải khai báo:
+                // private List<Chapter> chapterList = new ArrayList<>();
+                // Nếu không dòng dưới sẽ dính NullPointerException
                 novel.getChapterList().add(chapter);
-                novel.getCategoryList().add((Category) categoryDao.getListCategoryByIdNovel(idNovel));
+                novel.getCategoryList().addAll(categoryDao.getListCategoryByIdNovel(idNovel));
+
                 result.add(novel);
             }
 
@@ -173,11 +201,10 @@ public class NovelDao {
             throw new RuntimeException(e);
         }
 
-
         return result;
     }
 
-    //laays 3 truyen moi cap nhat
+    //laays 3 truyen hot nhat
     public List<Novel> getCommonNovels(){
         List<Novel> result = new ArrayList<>();
 
@@ -190,6 +217,7 @@ public class NovelDao {
             ResultSet resultSet = preparedStatement.executeQuery()){
                 while(resultSet.next()) {
                     Novel novel = new Novel();
+                    //set attribute
                     novel.setIdNovel(resultSet.getInt("id_novel"));
                     novel.setTitle(resultSet.getString("title"));
                     novel.setTotalViews(resultSet.getInt("total_views"));

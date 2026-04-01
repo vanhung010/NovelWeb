@@ -1,47 +1,24 @@
 <%@ taglib prefix="c" uri="jakarta.tags.core" %>
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 
-<jsp:include page="header.jsp";
+<jsp:include page="header.jsp" />
 <main class="container">
     <section class="section featured-section">
         <h2 class="section-title">Truyện Đề Cử</h2>
         <div class="featured-grid">
-            <div class="novel-card">
-                <div class="novel-cover" style="background-color: #cbd5e1">
-                    Cover
-                </div>
-                <div class="novel-info">
-                    <h3 class="novel-title">Ngự Đạo Khuynh Thiên</h3>
-                    <p class="novel-author">Ngã Thực Cật Tây Hồng Thị</p>
-                </div>
-            </div>
-            <div class="novel-card">
-                <div class="novel-cover" style="background-color: #94a3b8">
-                    Cover
-                </div>
-                <div class="novel-info">
-                    <h3 class="novel-title">Quang Âm Chi Ngoại</h3>
-                    <p class="novel-author">Nhĩ Căn</p>
-                </div>
-            </div>
-            <div class="novel-card">
-                <div class="novel-cover" style="background-color: #64748b">
-                    Cover
-                </div>
-                <div class="novel-info">
-                    <h3 class="novel-title">Đại Phụng Đả Canh Nhân</h3>
-                    <p class="novel-author">Mại Báo Tiểu Lang Quân</p>
-                </div>
-            </div>
-            <div class="novel-card">
-                <div class="novel-cover" style="background-color: #475569">
-                    Cover
-                </div>
-                <div class="novel-info">
-                    <h3 class="novel-title">Quỷ Bí Chi Chủ</h3>
-                    <p class="novel-author">Ái Tiềm Thủy Đích Ô Tặc</p>
-                </div>
-            </div>
+          <c:forEach items="${featuredNovel}" var="d">
+              <div class="novel-card">
+                <a href="search?idNovel=${d.idNovel}">   <div class="novel-cover" style="background-color: #cbd5e1">
+                      Cover
+                  </div>    <!-- Hình ảnh -->
+                  <div class="novel-info">
+                      <h3 class="novel-title">${d.title}</h3>
+                      <p class="novel-author"> ${d.author.pername}</p>
+                  </div>
+                </a>
+              </div>
+          </c:forEach>
+
         </div>
     </section>
 
@@ -50,27 +27,16 @@
             <section class="section">
                 <h2 class="section-title">Mới Cập Nhật</h2>
                 <div class="update-list">
-                    <div class="update-item">
-                        <span class="tag tag-genre">Tiên Hiệp</span>
-                        <a href="#" class="update-title">Vạn Cổ Thần Đế</a>
-                        <a href="#" class="update-chapter">Chương 3982</a>
-                        <span class="update-author">Phi Thiên Cá</span>
-                        <span class="update-time">10 phút trước</span>
-                    </div>
-                    <div class="update-item">
-                        <span class="tag tag-genre">Huyền Huyễn</span>
-                        <a href="#" class="update-title">Kiếm Đạo Đệ Nhất Tiên</a>
-                        <a href="#" class="update-chapter">Chương 2105</a>
-                        <span class="update-author">Tiêu Cẩn Du</span>
-                        <span class="update-time">25 phút trước</span>
-                    </div>
-                    <div class="update-item">
-                        <span class="tag tag-genre">Đô Thị</span>
-                        <a href="#" class="update-title">Ta Là Thần Hào</a>
-                        <a href="#" class="update-chapter">Chương 501</a>
-                        <span class="update-author">Vô Danh</span>
-                        <span class="update-time">1 giờ trước</span>
-                    </div>
+                    <c:forEach items="${novelRecentUpdate}" var="c">
+                        <div class="update-item">
+                            <span class="tag tag-genre">${c.categoryList[0]}</span>
+                            <a href="search?novel=${c.idNovel}" class="update-title">${c.title}</a>
+                            <a href="#" class="update-chapter">${c.chapterList[0].title}</a>
+                            <span class="update-author">${c.author.pername}</span>
+                            <span class="update-time">10 phút trước</span>
+                        </div>
+                    </c:forEach>
+
                 </div>
             </section>
         </div>
@@ -79,30 +45,19 @@
             <section class="section">
                 <h2 class="section-title">Đọc Nhiều Nhất</h2>
                 <ul class="ranking-list">
-                    <li class="ranking-item">
-                        <span class="rank-num rank-1">1</span>
-                        <div class="rank-info">
-                            <a href="#" class="rank-title">Linh Cảnh Hành Giả</a>
-                            <span class="rank-views">1.2M lượt đọc</span>
-                        </div>
-                    </li>
-                    <li class="ranking-item">
-                        <span class="rank-num rank-2">2</span>
-                        <div class="rank-info">
-                            <a href="#" class="rank-title">Thâm Không Bỉ Ngạn</a>
-                            <span class="rank-views">980K lượt đọc</span>
-                        </div>
-                    </li>
-                    <li class="ranking-item">
-                        <span class="rank-num rank-3">3</span>
-                        <div class="rank-info">
-                            <a href="#" class="rank-title">Xích Tâm Tuần Thiên</a>
-                            <span class="rank-views">850K lượt đọc</span>
-                        </div>
-                    </li>
+                   <c:forEach items="${commonNovels}" var="c" varStatus="loop">
+                       <li class="ranking-item">
+                           <span class="rank-num rank-1">${loop.count}</span>
+                           <div class="rank-info">
+                               <a href="search?idNovel=${c.idNovel}" class="rank-title">${c.title}</a>
+                               <span class="rank-views">${c.totalViews} lượt đọc</span>
+                           </div>
+                       </li>
+                   </c:forEach>
+
                 </ul>
             </section>
         </aside>
     </div>
 </main>
-<jsp:include page="footer.jsp";
+<jsp:include page="footer.jsp" />

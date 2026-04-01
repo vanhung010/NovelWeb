@@ -50,7 +50,7 @@ public class CategoryDao {
         String query = "SELECT c.id_category, c.name, c.description " +
                 "FROM category c " +
                 "INNER JOIN novel_category nc ON c.id_category = nc.id_category " +
-                "WHEN nc.id_category = ?";
+                "WHERE nc.id_category = ?";
         try(Connection connection = DBConnect.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(query)){
             preparedStatement.setInt(1,idnovel);

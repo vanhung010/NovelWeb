@@ -21,16 +21,12 @@
         <nav class="nav-links">
             <div class="dropdown">
                 <a href="#" class="dropdown-toggle">Thể Loại</a>
-<%--                <ul class="dropdown-menu">--%>
-<%--                    <li><a href="#">Tiên Hiệp</a></li>--%>
-<%--                    <li><a href="#">Huyền Huyễn</a></li>--%>
-<%--                    <li><a href="#">Võng Du</a></li>--%>
-<%--                    <li><a href="#">Đô Thị</a></li>--%>
-<%--                </ul>--%>
                 <ul class="dropdown-menu">
-                    <c:forEach items="${categories}" var="c">
-                        <li><a href="search?categoryId=${c.idCategory}">${c.name}</a></li>
-                    </c:forEach>
+                   <c:forEach items="${Category}" var="c">
+                       <li> <a href="search?category=${c.idCategory}">${c.name}</a></li>
+                   </c:forEach>
+
+
                 </ul>
             </div>
             <a href="#">Xếp Hạng</a>
