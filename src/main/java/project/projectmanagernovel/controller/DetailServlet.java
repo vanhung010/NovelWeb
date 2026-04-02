@@ -1,6 +1,7 @@
 package project.projectmanagernovel.controller;
 
 import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -13,7 +14,7 @@ import project.projectmanagernovel.entry.Novel;
 
 import java.io.IOException;
 import java.util.List;
-
+@WebServlet(urlPatterns = {"/detail"})
 public class DetailServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -73,6 +74,8 @@ public class DetailServlet extends HttpServlet {
             return;
         }
 
+        List<Chapter> chapterOfNovelInPage = chapterDao.getChapterByIdPage(idNovel, page);
+
         int totalChapter = chapterDao.getTotalChapterOfNovel(idNovel);
         int totalPages = (int) Math.ceil((double) totalChapter /12);
 
@@ -82,6 +85,7 @@ public class DetailServlet extends HttpServlet {
         req.setAttribute("currentpage",  page);
         req.setAttribute("totalpage", totalPages);
         req.setAttribute("listcategory", listCategoryOfNovel);
+        req.setAttribute("listchapter", chapterOfNovelInPage);
 
         req.getRequestDispatcher("views/public/detail.jsp").forward(req, resp);
     }

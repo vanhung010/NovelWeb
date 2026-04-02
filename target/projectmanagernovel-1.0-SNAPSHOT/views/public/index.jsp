@@ -8,9 +8,10 @@
         <div class="featured-grid">
           <c:forEach items="${featuredNovel}" var="d">
               <div class="novel-card">
-                <a href="search?idNovel=${d.idNovel}">   <div class="novel-cover" style="background-color: #cbd5e1">
-                      Cover
-                  </div>    <!-- Hình ảnh -->
+                <a href="search?idNovel=${d.idNovel}">
+                    <div class="novel-cover" style="background-color: #cbd5e1">
+                        <img src="${pageContext.request.contextPath}/assests/image/tiennghich.jpg" alt="Ngự Đạo Khuynh Thiên" />
+                    </div>
                   <div class="novel-info">
                       <h3 class="novel-title">${d.title}</h3>
                       <p class="novel-author"> ${d.author.pername}</p>
@@ -30,7 +31,7 @@
                     <c:forEach items="${novelRecentUpdate}" var="c">
                         <div class="update-item">
                             <span class="tag tag-genre">${c.categoryList[0]}</span>
-                            <a href="search?novel=${c.idNovel}" class="update-title">${c.title}</a>
+                            <a href="detail?id=${c.idNovel}" class="update-title">${c.title}</a>
                             <a href="#" class="update-chapter">${c.chapterList[0].title}</a>
                             <span class="update-author">${c.author.pername}</span>
                             <span class="update-time">10 phút trước</span>
