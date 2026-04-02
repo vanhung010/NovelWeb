@@ -32,6 +32,6 @@ public class HomeServlet extends HttpServlet {
         req.setAttribute("novelRecentUpdate", listNovelRecentUpdate);
         req.setAttribute("commonNovels", listNovelCommon);
 
-        req.getRequestDispatcher("index.jsp").forward(req, resp);
+        req.getRequestDispatcher("views/public/index.jsp").forward(req, resp);
     }
 }

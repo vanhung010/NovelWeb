@@ -1,7 +1,7 @@
 <%@ taglib prefix="c" uri="jakarta.tags.core" %>
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 
-<jsp:include page="header.jsp" />
+<jsp:include page="../../include/header.jsp" />
 <main class="container">
     <section class="section featured-section">
         <h2 class="section-title">Truyện Đề Cử</h2>
@@ -60,4 +60,4 @@
         </aside>
     </div>
 </main>
-<jsp:include page="footer.jsp" />
+<jsp:include page="../../include/footer.jsp" />
