@@ -7,6 +7,11 @@ public class Chapter {
     private String title;
     private String content;
     private int viewCount;
+    private int wordCount;
+
+    public void setWordCount(int wordCount) {
+        this.wordCount = wordCount;
+    }
 
     public Chapter(int idChapter, Novel novel, int chapterNumber, String title, String content, int viewCount) {
         this.idChapter = idChapter;
@@ -71,5 +76,12 @@ public class Chapter {
 
     public void setNovel(Novel novel) {
         this.novel = novel;
+    }
+
+    public int getWordCount(){
+        if(content == null || content.trim().isEmpty()){
+            return 0;
+        }
+        else return content.trim().split("\\s+").length;
     }
 }

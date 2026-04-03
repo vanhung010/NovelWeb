@@ -64,7 +64,7 @@
 
             <ul class="chapter-grid-full">
               <c:forEach items="${listchapter}" var="c">
-                  <li><a href="read?idchapter=${c.idChapter}">Chương ${c.chapterNumber}: ${c.title}</a></li>
+                  <li><a href="read?idchapter=${c.idChapter}&idnovel=${novel.idNovel}">Chương ${c.chapterNumber}: ${c.title}</a></li>
               </c:forEach>
             </ul>
         </div>
@@ -86,13 +86,7 @@
                 </c:choose>
             </c:forEach>
             
-<%--            <button class="page-btn" disabled>&laquo; Trước</button>--%>
-<%--            <button class="page-btn active">1</button>--%>
-<%--            <button class="page-btn">2</button>--%>
-<%--            <button class="page-btn">3</button>--%>
-<%--            <span class="page-dots">...</span>--%>
-<%--            <button class="page-btn">104</button>--%>
-<%--            <button class="page-btn">Sau &raquo;</button>--%>
+
         </div>
     </section>
 

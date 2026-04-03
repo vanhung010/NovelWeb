@@ -174,12 +174,12 @@ public class NovelDao {
     public List<Novel> getRecentlyUpdatedNovels(){
         List<Novel> result = new ArrayList<>();
 
-        // SỬA LỖI 1: Thêm bí danh (AS novel_title, AS chapter_title) để phân biệt 2 cột
-        String query = "SELECT n.id_novel, n.title AS novel_title, chap.title AS chapter_title, chap.created_at, chap.chapter_number, at.pen_name " +
+
+        String query = "SELECT n.id_novel, n.title AS novel_title, chap.title AS chapter_title, chap.create_at, chap.chapter_number, at.pen_name " +
                 "FROM chapter AS chap " +
                 "LEFT JOIN novel AS n ON chap.id_novel = n.id_novel " +
                 "LEFT JOIN author AS at ON n.id_author = at.id_author " +
-                "ORDER BY chap.created_at DESC " +
+                "ORDER BY chap.create_at DESC " +
                 "LIMIT 3";
 
         try(Connection connection = DBConnect.getConnection();
@@ -201,7 +201,7 @@ public class NovelDao {
 
                 author.setPername(resultSet.getString("pen_name"));
 
-                // SỬA LỖI 3: Bổ sung set Tên Truyện (novel_title)
+
                 novel.setIdNovel(idNovel);
                 novel.setTitle(resultSet.getString("novel_title"));
                 novel.setAuthor(author);
@@ -302,6 +302,39 @@ public class NovelDao {
         return novel;
     }
 
+    //lấy tên truyenej
+    public Novel getNameNovel(int idNovels) {
+        Novel novel = null; // Nên để null ban đầu, nếu tìm thấy truyện mới khởi tạo
+
+        // 1. Sửa LEFT JOIN, sửa lỗi chính tả description, và bỏ JOIN category đi cho đỡ trùng dòng
+        String query = "SELECT title " +
+                "FROM novel AS n " +
+                "WHERE n.id_novel = ?";
+
+        try (Connection connection = DBConnect.getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+
+
+            preparedStatement.setInt(1, idNovels);
+
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
+
+                if (resultSet.next()) {
+                    novel = new Novel();
+                    novel.setIdNovel(idNovels); // Nhớ set lại ID cho novel
+
+
+                    novel.setTitle(resultSet.getString("title"));
+
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new RuntimeException("Lỗi Database: " + e.getMessage());
+        }
+
+        return novel;
+    }
     //tăng lượt xem khi người dùng click vào truyện
 
     public void increseView(int idNovel){

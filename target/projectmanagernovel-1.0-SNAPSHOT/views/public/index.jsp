@@ -13,8 +13,8 @@
                         <img src="${c.coverImage}" alt="Ngự Đạo Khuynh Thiên" />
                     </div>
                   <div class="novel-info">
-                      <h3 class="novel-title">${d.title}</h3>
-                      <p class="novel-author"> ${d.author.pername}</p>
+                      <h3 class="novel-title">${c.title}</h3>
+                      <p class="novel-author"> ${c.author.pername}</p>
                   </div>
                 </a>
               </div>
