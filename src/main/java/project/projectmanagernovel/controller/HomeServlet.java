@@ -33,5 +33,7 @@ public class HomeServlet extends HttpServlet {
         req.setAttribute("commonNovels", listNovelCommon);
 
         req.getRequestDispatcher("views/public/index.jsp").forward(req, resp);
+
+        System.out.println(listNovelFeatured.get(0).getCoverImage());
     }
 }

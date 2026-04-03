@@ -6,6 +6,7 @@ import project.projectmanagernovel.entry.Chapter;
 import project.projectmanagernovel.entry.Novel;
 import project.projectmanagernovel.util.DBConnect;
 
+import java.lang.invoke.StringConcatFactory;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -14,6 +15,23 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class NovelDao {
+
+    //update url hiình ảnh của truyện
+    public void updateURLImage(int idnovel, String imageURL){
+        String  query = "UPDATE novel " +
+                "SET cover_image = ? " +
+                "WHERE id_novel = ?";
+        try(Connection connection = DBConnect.getConnection();
+        PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+            preparedStatement.setString(1, imageURL);
+            preparedStatement.setInt(2, idnovel);
+            preparedStatement.executeUpdate();
+        }
+        catch (SQLException e){
+            e.printStackTrace();
+        }
+
+    }
 
     public boolean insertNovel(Novel novel, List<Integer> categoryIds) {
         String sqlInsertNovel = "INSERT INTO novel (title, id_author, description, cover_image) " +
@@ -99,7 +117,7 @@ public class NovelDao {
         return isSuccess;
     }
 
-    public boolean deletedNonel(Integer idNovel){
+    public boolean deletedNovel(Integer idNovel){
         boolean isSucces = false;
         String query = "DELETE FROM novel WHERE id_novel = ?";
         try(Connection connection = DBConnect.getConnection();
@@ -300,5 +318,7 @@ public class NovelDao {
             throw new RuntimeException("lỗi database "+ e.getMessage());
             }
     }
+
+
 
 }

@@ -4,7 +4,9 @@
 <jsp:include page="../../include/header.jsp" />
 <section class="section story-hero">
     <div class="story-cover-large">
-        <div class="cover-placeholder">Ảnh Bìa</div>
+        <div class="cover-placeholder">
+            <img src="${pageContext.request.contextPath}/assests/image/tiennghich.jpg" alt="Ngự Đạo Khuynh Thiên" />
+        </div>
     </div>
     <div class="story-info">
         <h1 class="story-title"><c:out value="${novel.title}" /> </h1>

@@ -6,11 +6,11 @@
     <section class="section featured-section">
         <h2 class="section-title">Truyện Đề Cử</h2>
         <div class="featured-grid">
-          <c:forEach items="${featuredNovel}" var="d">
+          <c:forEach items="${featuredNovel}" var="c">
               <div class="novel-card">
-                <a href="search?idNovel=${d.idNovel}">
-                    <div class="novel-cover" style="background-color: #cbd5e1">
-                        <img src="${pageContext.request.contextPath}/assests/image/tiennghich.jpg" alt="Ngự Đạo Khuynh Thiên" />
+                <a href="detail?id=${c.idNovel}">
+                    <div class="novel-cover">
+                        <img src="${c.coverImage}" alt="Ngự Đạo Khuynh Thiên" />
                     </div>
                   <div class="novel-info">
                       <h3 class="novel-title">${d.title}</h3>
@@ -50,7 +50,7 @@
                        <li class="ranking-item">
                            <span class="rank-num rank-1">${loop.count}</span>
                            <div class="rank-info">
-                               <a href="search?idNovel=${c.idNovel}" class="rank-title">${c.title}</a>
+                               <a href="detail?id=${c.idNovel}" class="rank-title">${c.title}</a>
                                <span class="rank-views">${c.totalViews} lượt đọc</span>
                            </div>
                        </li>
