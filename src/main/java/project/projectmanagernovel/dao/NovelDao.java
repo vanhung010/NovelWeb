@@ -1,12 +1,11 @@
 package project.projectmanagernovel.dao;
 
-import project.projectmanagernovel.entry.Author;
-import project.projectmanagernovel.entry.Category;
-import project.projectmanagernovel.entry.Chapter;
-import project.projectmanagernovel.entry.Novel;
+import project.projectmanagernovel.entity.Author;
+import project.projectmanagernovel.entity.Chapter;
+import project.projectmanagernovel.entity.Novel;
+import project.projectmanagernovel.entity.NovelStatus;
 import project.projectmanagernovel.util.DBConnect;
 
-import java.lang.invoke.StringConcatFactory;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -141,7 +140,7 @@ public class NovelDao {
         String query = "SELECT n.id_novel, n.cover_image, n.title, n.status, at.pen_name " +
                 "FROM novel AS n " +
                 "LEFT JOIN author AS at ON n.id_author = at.id_author " +
-                "WHERE n.status = 'Completed' " +
+                "WHERE n.status = 'Completed' OR n.status= 'Ongoing'" +
                 "ORDER BY RANDOM() LIMIT 4";
 
         try (Connection connection = DBConnect.getConnection();
@@ -160,7 +159,7 @@ public class NovelDao {
                 novel.setIdNovel(resultSet.getInt("id_novel"));
                 novel.setTitle(resultSet.getString("title"));
                 novel.setCoverImage(resultSet.getString("cover_image"));
-                novel.setStatus(resultSet.getString("status"));
+                novel.setStatus(NovelStatus.valueOf(resultSet.getString("status").toUpperCase()));
 
                 result.add(novel);
             }
@@ -175,12 +174,40 @@ public class NovelDao {
         List<Novel> result = new ArrayList<>();
 
 
-        String query = "SELECT n.id_novel, n.title AS novel_title, chap.title AS chapter_title, chap.create_at, chap.chapter_number, at.pen_name " +
-                "FROM chapter AS chap " +
-                "LEFT JOIN novel AS n ON chap.id_novel = n.id_novel " +
-                "LEFT JOIN author AS at ON n.id_author = at.id_author " +
-                "ORDER BY chap.create_at DESC " +
-                "LIMIT 3";
+//        String query = "SELECT n.id_novel, n.title AS novel_title, chap.title AS chapter_title, chap.create_at, chap.chapter_number, at.pen_name " +
+//                "FROM chapter AS chap " +
+//                "LEFT JOIN novel AS n ON chap.id_novel = n.id_novel " +
+//                "LEFT JOIN author AS at ON n.id_author = at.id_author " +
+//                "ORDER BY chap.create_at DESC " +
+//                "LIMIT 3";
+        String query = "WITH RankedChapters AS (\n" +
+                "    SELECT \n" +
+                "        n.id_novel, \n" +
+                "        n.title AS novel_title, \n" +
+                "        chap.title AS chapter_title, \n" +
+                "        chap.create_at, \n" +
+                "        chap.chapter_number, \n" +
+                "        at.pen_name,\n" +
+                "        -- Đánh số thứ tự (1, 2, 3...) cho các chương CỦA CÙNG 1 TRUYỆN\n" +
+                "        ROW_NUMBER() OVER(\n" +
+                "            PARTITION BY n.id_novel \n" +
+                "            ORDER BY chap.create_at DESC, chap.chapter_number DESC\n" +
+                "        ) as rn\n" +
+                "    FROM novel AS n\n" +
+                "    JOIN chapter AS chap ON chap.id_novel = n.id_novel\n" +
+                "    JOIN author AS at ON n.id_author = at.id_author\n" +
+                ")\n" +
+                "SELECT \n" +
+                "    id_novel, \n" +
+                "    novel_title, \n" +
+                "    chapter_title, \n" +
+                "    create_at, \n" +
+                "    chapter_number, \n" +
+                "    pen_name\n" +
+                "FROM RankedChapters\n" +
+                "WHERE rn = 1 -- CHỈ lấy chương mới nhất (hạng 1) của mỗi truyện\n" +
+                "ORDER BY create_at DESC\n" +
+                "LIMIT 3;";
 
         try(Connection connection = DBConnect.getConnection();
             PreparedStatement preparedStatement = connection.prepareStatement(query);
@@ -276,7 +303,7 @@ public class NovelDao {
                     novel.setTitle(resultSet.getString("title"));
                     novel.setCoverImage(resultSet.getString("cover_image")); // Bạn bị thiếu dòng này
                     novel.setDescription(resultSet.getString("description"));
-                    novel.setStatus(resultSet.getString("status"));
+                    novel.setStatus(NovelStatus.valueOf(resultSet.getString("status").toUpperCase()));
                     novel.setTotalViews(resultSet.getInt("total_views"));
 
                     // Gắn Tác giả

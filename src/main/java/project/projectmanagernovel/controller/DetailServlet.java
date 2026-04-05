@@ -8,9 +8,9 @@ import jakarta.servlet.http.HttpServletResponse;
 import project.projectmanagernovel.dao.CategoryDao;
 import project.projectmanagernovel.dao.ChapterDao;
 import project.projectmanagernovel.dao.NovelDao;
-import project.projectmanagernovel.entry.Category;
-import project.projectmanagernovel.entry.Chapter;
-import project.projectmanagernovel.entry.Novel;
+import project.projectmanagernovel.entity.Category;
+import project.projectmanagernovel.entity.Chapter;
+import project.projectmanagernovel.entity.Novel;
 
 import java.io.IOException;
 import java.util.List;

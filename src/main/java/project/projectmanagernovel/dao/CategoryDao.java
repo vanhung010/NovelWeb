@@ -1,7 +1,6 @@
 package project.projectmanagernovel.dao;
 
-import project.projectmanagernovel.entry.Category;
-import project.projectmanagernovel.entry.Novel;
+import project.projectmanagernovel.entity.Category;
 import project.projectmanagernovel.util.DBConnect;
 
 import java.sql.Connection;

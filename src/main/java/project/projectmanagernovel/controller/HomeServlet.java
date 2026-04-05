@@ -5,14 +5,12 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import org.w3c.dom.stylesheets.LinkStyle;
 import project.projectmanagernovel.dao.CategoryDao;
 import project.projectmanagernovel.dao.NovelDao;
-import project.projectmanagernovel.entry.Category;
-import project.projectmanagernovel.entry.Novel;
+import project.projectmanagernovel.entity.Category;
+import project.projectmanagernovel.entity.Novel;
 
 import java.io.IOException;
-import java.net.http.HttpClient;
 import java.util.List;
 @WebServlet(urlPatterns = {"/home"})
 public class HomeServlet extends HttpServlet {

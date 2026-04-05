@@ -1,4 +1,4 @@
-package project.projectmanagernovel.entry;
+package project.projectmanagernovel.entity;
 
 public class Category {
     private int idCategory;

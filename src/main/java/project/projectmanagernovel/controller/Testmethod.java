@@ -6,8 +6,7 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import project.projectmanagernovel.dao.CategoryDao;
-import project.projectmanagernovel.entry.Category;
-import project.projectmanagernovel.util.DBConnect;
+import project.projectmanagernovel.entity.Category;
 
 import java.io.IOException;
 

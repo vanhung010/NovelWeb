@@ -1,4 +1,4 @@
-package project.projectmanagernovel.entry;
+package project.projectmanagernovel.entity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -9,7 +9,7 @@ public class Novel {
     private Author author;
     private String description; //mô tả truyên
     private String coverImage;
-    private String status;
+    private NovelStatus status;
     private int totalViews;
     private List<Category> categoryList;
     private List<Chapter> chapterList;
@@ -38,7 +38,7 @@ public class Novel {
         this.totalViews = totalViews;
     }
 
-    public Novel(int idNovel, String title, Author author, String description, String coverImage, String status, List<Category> categoryList) {
+    public Novel(int idNovel, String title, Author author, String description, String coverImage, NovelStatus status, List<Category> categoryList) {
         this.idNovel = idNovel;
         this.title = title;
         this.author = author;
@@ -94,11 +94,11 @@ public class Novel {
         this.coverImage = coverImage;
     }
 
-    public String getStatus() {
+    public NovelStatus  getStatus() {
         return status;
     }
 
-    public void setStatus(String status) {
+    public void setStatus(NovelStatus status) {
         this.status = status;
     }
 }

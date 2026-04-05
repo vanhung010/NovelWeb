@@ -1,14 +1,14 @@
-package project.projectmanagernovel.entry;
+package project.projectmanagernovel.entity;
 
 import java.time.LocalDate;
 
 public class WithdrawalRequest {
     private int idWithdrawalRequest;
     private double Amount;
-    private String status;
+    private WithdrawalRequest status;
     private LocalDate requestDate;
 
-    public WithdrawalRequest(int idWithdrawalRequest, double amount, String status, LocalDate requestDate) {
+    public WithdrawalRequest(int idWithdrawalRequest, double amount, WithdrawalRequest status, LocalDate requestDate) {
         this.idWithdrawalRequest = idWithdrawalRequest;
         Amount = amount;
         this.status = status;
@@ -26,11 +26,11 @@ public class WithdrawalRequest {
         this.requestDate = requestDate;
     }
 
-    public String getStatus() {
+    public WithdrawalRequest getStatus() {
         return status;
     }
 
-    public void setStatus(String status) {
+    public void setStatus(WithdrawalRequest status) {
         this.status = status;
     }
 

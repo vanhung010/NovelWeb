@@ -1,10 +1,8 @@
 package project.projectmanagernovel.dao;
 
-import org.w3c.dom.stylesheets.LinkStyle;
-import project.projectmanagernovel.entry.Chapter;
+import project.projectmanagernovel.entity.Chapter;
 import project.projectmanagernovel.util.DBConnect;
 
-import javax.xml.transform.Result;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;

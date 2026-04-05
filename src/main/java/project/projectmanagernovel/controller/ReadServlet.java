@@ -6,7 +6,7 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import project.projectmanagernovel.dao.ChapterDao;
-import project.projectmanagernovel.entry.Chapter;
+import project.projectmanagernovel.entity.Chapter;
 
 import java.io.IOException;
 @WebServlet( urlPatterns = {"/read"})

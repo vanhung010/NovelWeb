@@ -1,13 +1,13 @@
-package project.projectmanagernovel.entry;
+package project.projectmanagernovel.entity;
 
 public class Account {
     private int idAccount;
     private String userName;
     private String email;
     private Role role;
-    private String status;
+    private AccountStatus status;
 
-    public Account(int idAccount, String userName, String email, Role role, String status) {
+    public Account(int idAccount, String userName, String email, Role role, AccountStatus status) {
         this.idAccount = idAccount;
         this.userName = userName;
         this.email = email;
@@ -50,11 +50,11 @@ public class Account {
         this.role = role;
     }
 
-    public String getStatus() {
+    public AccountStatus getStatus() {
         return status;
     }
 
-    public void setStatus(String status) {
+    public void setStatus(AccountStatus status) {
         this.status = status;
     }
 }

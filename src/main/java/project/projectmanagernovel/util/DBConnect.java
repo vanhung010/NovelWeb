@@ -5,9 +5,8 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 
 public class DBConnect {
-    private static String url = "jdbc:postgresql://localhost:5432/ManagerStory";
-    private static  String user = "postgres";
-    private  static String password = "mw500wtl";
+    private static String url = "jdbc:postgresql://ep-fragrant-paper-amhhwia9-pooler.c-5.us-east-1.aws.neon.tech/neondb?user=neondb_owner&password=npg_seZvko9Ih4Ql&sslmode=require&channelBinding=require";
+
 
     private DBConnect() {
     }
@@ -15,7 +14,7 @@ public class DBConnect {
         Connection connection = null;
         try {
             Class.forName("org.postgresql.Driver");
-            connection = DriverManager.getConnection(url, user, password);
+            connection = DriverManager.getConnection(url);
             System.out.println("keets nối db thành công");
         } catch (SQLException e) {
             System.out.println("Lỗi kết nối database" + e.getMessage());
