@@ -6,6 +6,15 @@ public class Account {
     private String email;
     private Role role;
     private AccountStatus status;
+    private String pofileName;
+
+    public String getPofileName() {
+        return pofileName;
+    }
+
+    public void setPofileName(String pofileName) {
+        this.pofileName = pofileName;
+    }
 
     public Account(int idAccount, String userName, String email, Role role, AccountStatus status) {
         this.idAccount = idAccount;
