@@ -15,7 +15,18 @@
     <h2>Chào mừng trở lại!</h2>
     <p>Đăng nhập để lưu lại tủ sách của bạn</p>
   </div>
+  <c:if test="${not empty successMSG}">
+    <div style="background-color: #d4edda; color: #155724; padding: 12px 16px; margin-bottom: 20px; border-radius: 8px; border: 1px solid #c3e6cb; font-size: 14px;">
+      ✅ ${successMSG}
+    </div>
+  </c:if>
 
+  <%-- Kiểm tra và hiển thị thông báo lỗi (vd: Sai email hoặc mật khẩu) --%>
+  <c:if test="${not empty errorMSG}">
+    <div style="background-color: #f8d7da; color: #721c24; padding: 12px 16px; margin-bottom: 20px; border-radius: 8px; border: 1px solid #f5c6cb; font-size: 14px;">
+      ⚠️ ${errorMSG}
+    </div>
+  </c:if>
   <form class="auth-form" action="login" method="POST">
     <div class="form-group">
       <label for="email">Email</label>

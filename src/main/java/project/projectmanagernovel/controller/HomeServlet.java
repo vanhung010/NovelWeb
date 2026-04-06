@@ -5,6 +5,7 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import project.projectmanagernovel.dao.CategoryDao;
 import project.projectmanagernovel.dao.NovelDao;
 import project.projectmanagernovel.entity.Category;
@@ -32,6 +33,7 @@ public class HomeServlet extends HttpServlet {
 
         req.getRequestDispatcher("views/public/index.jsp").forward(req, resp);
 
-        System.out.println(listNovelFeatured.get(0).getCoverImage());
+
+
     }
 }

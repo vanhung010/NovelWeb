@@ -1,6 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="jakarta.tags.core" %>
 
+
 <!doctype html>
 <html lang="vi">
 <head>
@@ -33,9 +34,25 @@
             <a href="#">Truyện Mới</a>
         </nav>
 
-        <div class="user-actions">
-            <button class="btn-login" onclick="window.location.href='login'">Đăng Nhập</button>
-            <button class="btn-signup" onclick="window.location.href='register'">Đăng Kí</button>
-        </div>
+        <c:choose>
+            <c:when test="${not empty loggedUser}">
+                <div class="user-profile-menu">
+                    <div class="avatar-circle">NA</div>
+                <span class="user-name"><c:out value="${loggedUser.pofileName}"/></span>
+                <ul class="dropdown-menu">
+                    <li><a href="#">Tài Khoản</a></li>
+                    <li><a href="#">Thư Viện</a></li>
+                    <li><a href="#">Lịch Sử Đọc</a></li>
+                    <li><a href="#">Cài Đặt</a></li>
+                    <li><hr></li>
+                    <li><a href="#" class="text-danger">Đăng Xuất</a></li>
+                </ul>
+            </div></c:when>
+            <c:otherwise><div class="user-actions">
+                <button class="btn-login" onclick="window.location.href='login'">Đăng Nhập</button>
+                <button class="btn-signup" onclick="window.location.href='register'">Đăng Kí</button>
+            </div></c:otherwise>
+        </c:choose>
+
     </div>
 </header>

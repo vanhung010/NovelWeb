@@ -36,7 +36,7 @@ public class LoginServlet extends HttpServlet {
         }
         AccountDao accountDao = new AccountDao();
         Account account = accountDao.checkAccount(email, password);
-        System.out.println("Tài khoản tìm được: " + account);
+
 
         if(account == null){
             errorMSG = "Sai email hoặc mật khẩu";
@@ -46,7 +46,7 @@ public class LoginServlet extends HttpServlet {
         }
         else {
             HttpSession session = req.getSession();
-            session.setAttribute("currentUser", account);
+            session.setAttribute("loggedUser", account);
 
             // Tùy chọn nâng cao: Phân luồng theo Role (Admin đi đường riêng, Reader đi đường riêng)
             resp.sendRedirect("home");

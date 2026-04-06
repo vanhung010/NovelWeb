@@ -117,6 +117,8 @@ public class AccountDao {
                     account = new Account();
                    account.setEmail(resultSet.getString("email"));
                    account.setIdAccount(resultSet.getInt("id_account"));
+
+
                    if(idRole == 2){
                        account.setPofileName(resultSet.getString("pen_name"));
                        Role role = new Role();
