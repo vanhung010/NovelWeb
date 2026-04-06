@@ -16,6 +16,11 @@
         <p>Tham gia cộng đồng đọc truyện lớn nhất</p>
     </div>
 
+    <c:if test="${not empty errorMsg}">
+        <div style="background-color: #f8d7da; color: #721c24; padding: 12px 16px; margin-bottom: 20px; border-radius: 8px; border: 1px solid #f5c6cb; font-size: 14px;">
+            ⚠️ ${errorMsg}
+        </div>
+    </c:if>
     <form class="auth-form" action="register" method="POST">
         <div class="form-group">
             <label>Bạn là ai?</label>
@@ -50,6 +55,7 @@
                     id="username"
                     placeholder="Ví dụ: Phong Tôn Giả"
                     name="displayName"
+                    value = "${oldDisplayName}"
                     required
             />
         </div>
@@ -61,7 +67,8 @@
                     id="email"
                     placeholder="Nhập email của bạn"
                     name="email"
-                    required
+                    value = "${oldEmail}"
+                            required
             />
         </div>
 

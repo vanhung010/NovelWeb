@@ -41,7 +41,7 @@ public class RegisterServlet extends HttpServlet {
             errolMsg = "Mật khẩu xác nhận khng khớp";
         }
         else if(passwordExplain.length() < 8) {
-            errolMsg = "Maajt khẩu phải có ít nhất 8 kí tự";
+            errolMsg = "Mật khẩu phải có ít nhất 8 kí tự";
         }
         //Neeus có lỗi
         if(errolMsg != null){
