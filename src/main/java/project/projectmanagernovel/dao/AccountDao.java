@@ -23,7 +23,7 @@ public class AccountDao {
 
             int idRole = roleType.equalsIgnoreCase("author") ? 2 : 3;
 
-            String queryAccount = "UPDATE INTO account (username, password, email, id_role) " +
+            String queryAccount = "INSERT INTO account (username, password, email, id_role) " +
                     "VALUES (?, ?, ?, ?)";
             PreparedStatement preparedStatementAccount = conn.prepareStatement(queryAccount, PreparedStatement.RETURN_GENERATED_KEYS);
             //set value
@@ -42,7 +42,7 @@ public class AccountDao {
             }
 
             if(idRole == 2){
-                String queryAuthor = "UPDATE INTO author (id_account, pen_name) " +
+                String queryAuthor = "INSERT INTO author (id_account, pen_name) " +
                         "VALUES (?, ?)";
                 PreparedStatement preparedStatementAuthor = conn.prepareStatement(queryAuthor);
                 preparedStatementAuthor.setInt(1, idAccount);
@@ -50,7 +50,7 @@ public class AccountDao {
                 preparedStatementAuthor.executeUpdate();
             }
             else if(idRole == 3) {
-                String queryReader = "UPDATE INTO reader (id_account, displayname) " +
+                String queryReader = "INSERT INTO reader (id_account, displayname) " +
                         "VALUES (?, ?)";
                 PreparedStatement preparedStatementReader = conn.prepareStatement(queryReader);
                 preparedStatementReader.setInt(1, idAccount);
