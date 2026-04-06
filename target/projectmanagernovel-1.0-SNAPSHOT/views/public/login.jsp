@@ -6,7 +6,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Đăng Nhập - NovelWeb</title>
-  <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="assests/css/style.css" />
 </head>
 <body class="auth-page">
 <div class="auth-container">
@@ -16,7 +16,7 @@
     <p>Đăng nhập để lưu lại tủ sách của bạn</p>
   </div>
 
-  <form class="auth-form">
+  <form class="auth-form" action="login" method="POST">
     <div class="form-group">
       <label for="email">Email</label>
       <input

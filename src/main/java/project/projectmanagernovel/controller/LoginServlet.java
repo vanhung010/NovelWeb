@@ -1,6 +1,7 @@
 package project.projectmanagernovel.controller;
 
 import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -9,7 +10,7 @@ import project.projectmanagernovel.dao.AccountDao;
 import project.projectmanagernovel.entity.Account;
 
 import java.io.IOException;
-
+@WebServlet(urlPatterns = {"/login"})
 public class LoginServlet extends HttpServlet {
 
     @Override
@@ -35,6 +36,8 @@ public class LoginServlet extends HttpServlet {
         }
         AccountDao accountDao = new AccountDao();
         Account account = accountDao.checkAccount(email, password);
+        System.out.println("Tài khoản tìm được: " + account);
+
         if(account == null){
             errorMSG = "Sai email hoặc mật khẩu";
             req.setAttribute("errorMSG", errorMSG);

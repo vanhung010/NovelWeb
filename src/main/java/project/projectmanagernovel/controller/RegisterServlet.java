@@ -56,9 +56,9 @@ public class RegisterServlet extends HttpServlet {
         }
 
         //3 thực thi
-        String password = BCrypt.hashpw(passwordExplain, BCrypt.gensalt(10));
+
         AccountDao accountDao = new AccountDao();
-        boolean isSuccess =accountDao.addAccount(displayName, password, email, role);
+        boolean isSuccess =accountDao.addAccount(displayName, passwordExplain, email, role);
 
         if(isSuccess){
             resp.sendRedirect("login?msg=register_success");

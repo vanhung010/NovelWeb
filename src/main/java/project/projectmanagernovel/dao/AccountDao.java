@@ -111,7 +111,7 @@ public class AccountDao {
                 String displayName = resultSet.getString("username");
                 int idRole = resultSet.getInt("id_role");
 
-                boolean check = BCrypt.checkpw(password, hashPassword) && email.equalsIgnoreCase(emailAccount);
+                boolean check = (BCrypt.checkpw(password, hashPassword) && email.equalsIgnoreCase(emailAccount));
                 //nếu đăng nhập đúng
                 if(check){
                     account = new Account();
