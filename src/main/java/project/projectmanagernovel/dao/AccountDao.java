@@ -10,7 +10,7 @@ import java.sql.SQLException;
 
 public class AccountDao {
 
-    public boolean addAccount(String userName, String plainPassword, String email, String displayName, String roleType){
+    public boolean addAccount(String userName, String plainPassword, String email, String roleType){
         boolean isSuccess = false;
         Connection conn = null;
 

@@ -35,7 +35,7 @@
 
         <div class="user-actions">
             <button class="btn-login">Đăng Nhập</button>
-            <button class="btn-signup">Đăng Kí</button>
+            <button class="btn-signup" onclick="window.location.href='register'">Đăng Kí</button>
         </div>
     </div>
 </header>
