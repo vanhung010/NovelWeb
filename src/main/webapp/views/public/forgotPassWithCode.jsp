@@ -34,8 +34,17 @@
       <span>Mật Khẩu Mới</span>
     </div>
   </div>
-
-  <form class="auth-form" id="codeForm">
+<c:if test="${not empty param.msg}">
+<div style="background-color: #f8d7da; color: #721c24; padding: 12px 16px; margin-bottom: 20px; border-radius: 8px; border: 1px solid #f5c6cb; font-size: 14px; text-align: center;">
+  ⚠️ ${errorMSG}
+</div>   </c:if>
+  <%-- Khối hiển thị Gửi lại mã thành công --%>
+  <c:if test="${not empty successMSG}">
+    <div style="background-color: #d4edda; color: #155724; padding: 12px 16px; margin-bottom: 20px; border-radius: 8px; border: 1px solid #c3e6cb; font-size: 14px; text-align: center;">
+      ✅ ${successMSG}
+    </div>
+  </c:if>
+  <form class="auth-form" id="codeForm" method="POST" action="forgotpasscode">
     <div class="form-group">
       <label for="code">Mã Xác Thực</label>
       <input
@@ -74,36 +83,21 @@
 </div>
 
 <script>
-  // Chỉ cho phép nhập số
+  // Chỉ cho phép nhập số (Code cũ của bạn)
   document.getElementById("code").addEventListener("keydown", function (e) {
     if (!/[0-9]/.test(e.key) && !["Backspace", "Delete", "Tab", "ArrowLeft", "ArrowRight"].includes(e.key)) {
       e.preventDefault();
     }
   });
 
-  document.getElementById("codeForm").addEventListener("submit", function (e) {
-    e.preventDefault();
-    const code = document.getElementById("code").value;
-    if (code.length === 6) {
-      // Chuyển hướng đến trang đổi mật khẩu
-      window.location.href = "forgetPasswordchangePass.html";
-    }
-  });
+  // CODE MỚI: Bắt sự kiện click cho nút Gửi lại mã
+  document.getElementById("resendBtn").addEventListener("click", function() {
+    // Đổi chữ trên nút để người dùng biết hệ thống đang xử lý
+    this.innerText = "Đang gửi...";
+    this.disabled = true;
 
-  // Gửi lại mã
-  let resendCount = 0;
-  const resendBtn = document.getElementById("resendBtn");
-  resendBtn.addEventListener("click", function () {
-    resendCount++;
-    if (resendCount >= 3) {
-      resendBtn.disabled = true;
-      resendBtn.textContent = "Đã vượt quá lần gửi lại";
-    } else {
-      resendBtn.textContent = "Đã gửi lại mã";
-      setTimeout(() => {
-        resendBtn.textContent = "Gửi lại mã";
-      }, 3000);
-    }
+    // Chuyển hướng sang Servlet xử lý gửi lại mã
+    window.location.href = "resend-code";
   });
 </script>
 </body>

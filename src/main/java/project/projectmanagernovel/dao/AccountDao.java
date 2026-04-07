@@ -210,4 +210,25 @@ public class AccountDao {
 
         return isSuccess;
     }
+
+    public boolean updatePassByEmail(String email, String password){
+        String query = "UPDATE account " +
+                "SET password = ? " +
+                "WHERE email = ?";
+        boolean isSuccess = false;
+        try(Connection connection = DBConnect.getConnection();
+        PreparedStatement preparedStatement = connection.prepareStatement(query)){
+            String hasPass = BCrypt.hashpw(password, BCrypt.gensalt(10));
+
+            preparedStatement.setString(1, hasPass);
+            preparedStatement.setString(2, email);
+            int arrowEffect = preparedStatement.executeUpdate();
+            if(arrowEffect>0) isSuccess = true;
+
+        }
+        catch(SQLException e){
+            e.printStackTrace();
+        }
+        return isSuccess;
+    }
 }

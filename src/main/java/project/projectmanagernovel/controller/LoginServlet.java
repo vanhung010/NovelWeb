@@ -16,6 +16,9 @@ public class LoginServlet extends HttpServlet {
         if("register_success".equals(msg)){
             req.setAttribute("successMSG", "Đăng kí thành công");
         }
+        else if("finish".equals(msg)){
+            req.setAttribute("successMSG", "Đổi mật khẩu thành công.");
+        }
         req.getRequestDispatcher("views/public/login.jsp").forward(req, resp);
     }
 

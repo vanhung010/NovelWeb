@@ -35,7 +35,10 @@
       <span>Mật Khẩu Mới</span>
     </div>
   </div>
-
+  <c:if test="${not empty param.msg}">
+    <div style="background-color: #f8d7da; color: #721c24; padding: 12px 16px; margin-bottom: 20px; border-radius: 8px; border: 1px solid #f5c6cb; font-size: 14px; text-align: center;">
+      ⚠️ ${errorMSG}
+    </div>   </c:if>
   <form class="auth-form" id="emailForm" method="POST" action="forgotpassmail">
     <div class="form-group">
       <label for="email">Địa chỉ Email</label>

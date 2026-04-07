@@ -45,7 +45,7 @@
 <%--                    <li><a href="#">Lịch Sử Đọc</a></li>--%>
 <%--                    <li><a href="#">Cài Đặt</a></li>--%>
     <c:choose>
-        <c:when test="loggedUser.role.idRole == 3">
+        <c:when test="${loggedUser.role.idRole == 3}">
                                <li><a href="#">Tài Khoản</a></li>
                               <li><a href="#">Thư Viện</a></li>
                              <li><a href="#">Lịch Sử Đọc</a></li>
