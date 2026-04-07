@@ -53,9 +53,9 @@
 
     <div class="form-actions">
       <label class="remember-me">
-        <input type="checkbox" /> Ghi nhớ đăng nhập
+        <input type="checkbox" value="on" name="remember"/> Ghi nhớ đăng nhập
       </label>
-      <a href="#" class="forgot-password">Quên mật khẩu?</a>
+      <a href="forgotpassmail" class="forgot-password">Quên mật khẩu?</a>
     </div>
 
     <button type="submit" class="btn-primary btn-block">Đăng Nhập</button>
@@ -78,7 +78,7 @@
       <span>•</span>
       <a href="#">Liên Hệ Hỗ Trợ</a>
     </div>
-    <p>Chưa có tài khoản? <a href="register.html">Đăng ký ngay</a></p>
+    <p>Chưa có tài khoản? <a href="register">Đăng ký ngay</a></p>
     <p class="auth-footer-copyright">
       &copy; 2024 NovelWeb. Bảo lưu mọi quyền.
     </p>

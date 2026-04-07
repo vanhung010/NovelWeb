@@ -2,10 +2,7 @@ package project.projectmanagernovel.controller;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
-import jakarta.servlet.http.HttpServlet;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpSession;
+import jakarta.servlet.http.*;
 import project.projectmanagernovel.dao.AccountDao;
 import project.projectmanagernovel.entity.Account;
 
@@ -26,6 +23,7 @@ public class LoginServlet extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String email = req.getParameter("email");
         String password = req.getParameter("password");
+        String remember = req.getParameter("remember");
             String errorMSG = null;
         if(email == null || email.trim().isEmpty() || password == null || password.trim().isEmpty()){
             errorMSG = "Vui lòng điền đầy đủ thông tin";
@@ -47,6 +45,13 @@ public class LoginServlet extends HttpServlet {
         else {
             HttpSession session = req.getSession();
             session.setAttribute("loggedUser", account);
+            if("ON".equalsIgnoreCase(remember)){
+                Cookie cookieEmail = new Cookie("cookieEmail", account.getEmail());
+
+                cookieEmail.setMaxAge(60*60*24*30);
+
+                resp.addCookie(cookieEmail);
+            }
 
             // Tùy chọn nâng cao: Phân luồng theo Role (Admin đi đường riêng, Reader đi đường riêng)
             resp.sendRedirect("home");

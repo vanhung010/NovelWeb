@@ -40,12 +40,25 @@
                     <div class="avatar-circle">NA</div>
                 <span class="user-name"><c:out value="${loggedUser.pofileName}"/></span>
                 <ul class="dropdown-menu">
-                    <li><a href="#">Tài Khoản</a></li>
-                    <li><a href="#">Thư Viện</a></li>
-                    <li><a href="#">Lịch Sử Đọc</a></li>
-                    <li><a href="#">Cài Đặt</a></li>
+<%--                    <li><a href="#">Tài Khoản</a></li>--%>
+<%--                    <li><a href="#">Thư Viện</a></li>--%>
+<%--                    <li><a href="#">Lịch Sử Đọc</a></li>--%>
+<%--                    <li><a href="#">Cài Đặt</a></li>--%>
+    <c:choose>
+        <c:when test="loggedUser.role.idRole == 3">
+                               <li><a href="#">Tài Khoản</a></li>
+                              <li><a href="#">Thư Viện</a></li>
+                             <li><a href="#">Lịch Sử Đọc</a></li>
+                         <li><a href="#">Cài Đặt</a></li>
+        </c:when>
+        <c:otherwise>
+            <li><a href="#">Tài Khoản</a></li>
+            <li><a href="#">Quản lí truyện</a></li>
+            <li><a href="#">Cài Đặt</a></li>
+        </c:otherwise>
+    </c:choose>
                     <li><hr></li>
-                    <li><a href="#" class="text-danger">Đăng Xuất</a></li>
+                    <li><a href="logout" class="text-danger">Đăng Xuất</a></li>
                 </ul>
             </div></c:when>
             <c:otherwise><div class="user-actions">

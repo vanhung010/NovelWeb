@@ -2,12 +2,11 @@ package project.projectmanagernovel.controller;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
-import jakarta.servlet.http.HttpServlet;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpSession;
+import jakarta.servlet.http.*;
+import project.projectmanagernovel.dao.AccountDao;
 import project.projectmanagernovel.dao.CategoryDao;
 import project.projectmanagernovel.dao.NovelDao;
+import project.projectmanagernovel.entity.Account;
 import project.projectmanagernovel.entity.Category;
 import project.projectmanagernovel.entity.Novel;
 
@@ -30,6 +29,29 @@ public class HomeServlet extends HttpServlet {
         req.setAttribute("featuredNovel", listNovelFeatured);
         req.setAttribute("novelRecentUpdate", listNovelRecentUpdate);
         req.setAttribute("commonNovels", listNovelCommon);
+
+        HttpSession session = req.getSession();
+        Account account = (Account) session.getAttribute("loggedUser");
+        //chưa có session (chưa đăng nhập)
+        if(account == null) {
+            Cookie[] cookies = req.getCookies();
+
+            if (cookies != null) {
+                for (Cookie c : cookies) {
+                    if (c.getName().equals("cookieEmail")) {
+                        String emailValueCookie = c.getValue();
+
+                        AccountDao accountDao = new AccountDao();
+                        Account account1 = accountDao.getAccountByEmail(emailValueCookie);
+
+                        if (account1 != null) {
+                            session.setAttribute("loggedUser", account1);
+                            break;
+                        }
+                    }
+                }
+            }
+        }
 
         req.getRequestDispatcher("views/public/index.jsp").forward(req, resp);
 

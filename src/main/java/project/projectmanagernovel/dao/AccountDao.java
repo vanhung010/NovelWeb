@@ -144,4 +144,70 @@ public class AccountDao {
         }
         return account;
     }
+
+    public Account getAccountByEmail(String email){
+        Account account = null;
+
+        String query = "SELECT * FROM account AS a " +
+                "LEFT JOIN author AS at ON at.id_account = a.id_account " +
+                "LEFT JOIN reader AS r ON r.id_account = a.id_account "+
+                "WHERE a.email = ?";
+        try(Connection connection = DBConnect.getConnection();
+            PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+            preparedStatement.setString(1, email);
+
+            ResultSet resultSet = preparedStatement.executeQuery();
+            if (resultSet.next()) {
+                String emailAccount = resultSet.getString("email");
+                String displayName = resultSet.getString("username");
+                int idRole = resultSet.getInt("id_role");
+
+                boolean check = email.equalsIgnoreCase(emailAccount);
+                if(check) {
+                    account = new Account();
+                    account.setEmail(resultSet.getString("email"));
+                    account.setIdAccount(resultSet.getInt("id_account"));
+
+                    if (idRole == 2) {
+                        account.setPofileName(resultSet.getString("pen_name"));
+                        Role role = new Role();
+                        role.setIdRole(2);
+                        role.setRoleName(RoleType.AUTHOR);
+                        account.setRole(role);
+                    } else if (idRole == 3) {
+                        account.setPofileName(resultSet.getString("displayname"));
+                        Role role = new Role();
+                        role.setIdRole(3);
+                        role.setRoleName(RoleType.READER);
+                        account.setRole(role);
+                    }
+                }
+            }
+        }
+        catch(SQLException e){
+            e.printStackTrace();
+
+        }
+        return account;
+    }
+
+    public boolean checkAccountByEmail(String email){
+        boolean isSuccess = false;
+        String query = "SELECT * FROM account " +
+                "WHERE email = ?";
+        try(Connection connection = DBConnect.getConnection();
+        PreparedStatement preparedStatement = connection.prepareStatement(query)){
+            preparedStatement.setString(1, email);
+            try(ResultSet resultSet = preparedStatement.executeQuery()){
+                if(resultSet.next()){
+                    isSuccess = true;
+                }
+            }
+        }
+        catch(SQLException e){
+            e.printStackTrace();
+        }
+
+        return isSuccess;
+    }
 }
