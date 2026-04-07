@@ -7,7 +7,9 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Quên Mật Khẩu - NovelWeb</title>
-  <link rel="stylesheet" href="assests/css/forgotpass.css" />
+
+  <link rel="stylesheet" href="<c:url value='/assests/css/style.css'/>" />
+  <link rel="stylesheet" href="<c:url value='/assests/css/forgotpass.css'/>" />
 </head>
 <body class="auth-page">
 <div class="auth-container">

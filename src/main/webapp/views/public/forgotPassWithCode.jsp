@@ -7,8 +7,8 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Xác Thực Mã Code - NovelWeb</title>
-  <link rel="stylesheet" href="styles.css" />
-  <link rel="stylesheet" href="css/forgetpassword.css" />
+  <link rel="stylesheet" href="<c:url value='/assests/css/style.css'/>" />
+  <link rel="stylesheet" href="<c:url value='/assests/css/forgotpass.css'/>" />
 </head>
 <body class="auth-page">
 <div class="auth-container">
@@ -45,6 +45,7 @@
               placeholder="000000"
               maxlength="6"
               inputmode="numeric"
+              name ="code"
               required
               pattern="[0-9]{6}"
       />
