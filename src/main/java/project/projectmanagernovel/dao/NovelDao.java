@@ -1,9 +1,6 @@
 package project.projectmanagernovel.dao;
 
-import project.projectmanagernovel.entity.Author;
-import project.projectmanagernovel.entity.Chapter;
-import project.projectmanagernovel.entity.Novel;
-import project.projectmanagernovel.entity.NovelStatus;
+import project.projectmanagernovel.entity.*;
 import project.projectmanagernovel.util.DBConnect;
 
 import java.sql.Connection;
@@ -379,6 +376,52 @@ public class NovelDao {
             }
     }
 
+    public List<Novel> getNovelBySearch(String key){
+        List<Novel> result = new ArrayList<>();
+        String query = "SELECT n.title, n.cover_image, n.description, n.status, a.pen_name, n.id_novel, a.id_author " +
+                "FROM novel AS n " +
+                "LEFT JOIN author AS a ON a.id_author = n.id_author " +
+                "WHERE n.title ILIKE ?";
+        try(Connection connection = DBConnect.getConnection();
+        PreparedStatement preparedStatement = connection.prepareStatement(query)){
+            preparedStatement.setString(1, "%"+key+"%");
+            try(ResultSet resultSet = preparedStatement.executeQuery()){
+            while(resultSet.next()){
+                Author author = new Author();
+                Novel novel = new Novel();
+                CategoryDao categoryDao = new CategoryDao();
 
+
+                String titleNovel = resultSet.getString("title");
+                String cover_image = resultSet.getString("cover_image");
+                String description = resultSet.getString("description");
+                String penName = resultSet.getString("pen_name");
+                String status = resultSet.getString("status");
+                int idNovel = resultSet.getInt("id_novel");
+                int id_author = resultSet.getInt("id_author");
+
+                List<Category> categoryList = categoryDao.getListCategoryByIdNovel(idNovel);
+
+                author.setPername(penName);
+                author.setIdAuthor(id_author);
+
+                novel.setIdNovel(idNovel);
+                novel.setTitle(titleNovel);
+                novel.setCoverImage(cover_image);
+                novel.setDescription(description);
+                novel.setAuthor(author);
+                novel.setStatus(NovelStatus.valueOf(status.toUpperCase()));
+                novel.getCategoryList().addAll(categoryList);
+
+                result.add(novel);
+
+            }
+            }
+        }
+        catch(SQLException e){
+            e.printStackTrace();
+        }
+        return result;
+    }
 
 }

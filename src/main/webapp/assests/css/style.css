@@ -101,6 +101,15 @@ a:hover {
     border-radius: 24px;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
     transition: all 0.3s ease;
+    background-color: var(--bg-body); /* Đảm bảo có màu nền */
+}
+
+/* THÊM ĐOẠN NÀY: Thiết lập flexbox cho thẻ form */
+.search-bar form {
+    display: flex;
+    width: 100%;
+    height: 100%;
+    align-items: center; /* Căn giữa theo chiều dọc */
 }
 
 .search-bar:focus-within {
@@ -108,14 +117,16 @@ a:hover {
 }
 
 .search-bar input {
-    width: 100%;
-    padding: 10px 20px;
+    flex: 1;
+    height: 100%; /* Ép input cao bằng cha của nó (40px) */
+    padding: 0 20px; /* Bỏ padding top/bottom để tránh lệch */
     border: 1px solid var(--color-border);
+    border-right: none;
     border-radius: 24px 0 0 24px;
     outline: none;
-    background-color: var(--bg-body);
-    transition: all 0.2s ease;
+    background-color: transparent;
     font-size: 14px;
+    box-sizing: border-box; /* Rất quan trọng: Ngăn padding làm phình width */
 }
 
 .search-bar input:focus {
@@ -124,20 +135,23 @@ a:hover {
 }
 
 .search-bar button {
-    padding: 10px 20px;
+    height: 100%; /* Ép button cao bằng cha của nó (40px) */
+    padding: 0 24px;
     background-color: var(--color-brand);
     color: white;
     border: none;
     border-radius: 0 24px 24px 0;
     cursor: pointer;
     font-weight: 600;
-    transition: all 0.2s ease;
     font-size: 14px;
+    box-sizing: border-box; /* Rất quan trọng */
+    flex-shrink: 0; /* BẮT BUỘC: Ngăn không cho nút bị teo nhỏ hoặc rớt dòng */
+    white-space: nowrap; /* Ngăn chữ bên trong nút bị rớt dòng */
 }
 
 .search-bar button:hover {
     background-color: var(--color-brand-hover);
-    transform: translateX(2px);
+    /* Bỏ transform: translateX(2px); đi nếu không muốn bị hở khe rỗng giữa input và button khi hover */
 }
 
 .nav-links {

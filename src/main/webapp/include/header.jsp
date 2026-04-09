@@ -15,8 +15,10 @@
         <a href="#" class="logo">Novel<span>Web</span></a>
 
         <div class="search-bar">
-            <input type="text" placeholder="Tìm kiếm truyện, tác giả..." />
-            <button type="button">Tìm</button>
+            <form action="search" method="GET" >
+            <input type="text" placeholder="Tìm kiếm truyện, tác giả..."  name="key"/>
+            <button type="submit">Tìm</button>
+            </form>
         </div>
 
         <nav class="nav-links">
