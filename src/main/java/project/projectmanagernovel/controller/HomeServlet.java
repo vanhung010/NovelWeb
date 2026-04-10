@@ -25,7 +25,10 @@ public class HomeServlet extends HttpServlet {
         List<Novel> listNovelRecentUpdate = novelDao.getRecentlyUpdatedNovels();
         List<Novel> listNovelCommon = novelDao.getCommonNovels();
 
-        req.setAttribute("Category", listallCategory);
+        HttpSession sessionCate = req.getSession();
+        sessionCate.setAttribute("Category", listallCategory);
+
+
         req.setAttribute("featuredNovel", listNovelFeatured);
         req.setAttribute("novelRecentUpdate", listNovelRecentUpdate);
         req.setAttribute("commonNovels", listNovelCommon);

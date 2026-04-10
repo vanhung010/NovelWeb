@@ -306,9 +306,9 @@ public class NovelDao {
                     // Gắn Tác giả
                     Author author = new Author();
                     author.setPername(resultSet.getString("pen_name"));
-                    novel.setAuthor(author); // Bạn bị thiếu dòng này để nối tác giả vào truyện
+                    novel.setAuthor(author);
 
-                    // Gọi DAO để lấy danh sách Chương (Trang 1)
+
                     ChapterDao chapterDao = new ChapterDao();
                     List<Chapter> listChapter = chapterDao.getChapterByIdPage(idNovels, page);
                     novel.getChapterList().addAll(listChapter);

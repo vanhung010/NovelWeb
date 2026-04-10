@@ -101,4 +101,8 @@ public class Novel {
     public void setStatus(NovelStatus status) {
         this.status = status;
     }
+
+    public int getTotalChapter() {
+        return chapterList.size();
+    }
 }

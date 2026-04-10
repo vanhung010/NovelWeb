@@ -23,11 +23,11 @@
 
         <div class="story-stats">
             <div class="stat-box">
-                <span class="stat-number"><c:out value="${totalpage}" /> </span>
+                <span class="stat-number"><c:out value="${novel.totalChapter}" /> </span>
                 <span class="stat-label">Chương</span>
             </div>
             <div class="stat-box">
-                <span class="stat-number"><c:out value="${novel.totalViews}" /> M</span>
+                <span class="stat-number"><c:out value="${novel.totalViews}" /></span>
                 <span class="stat-label">Lượt đọc</span>
             </div>
         </div>
