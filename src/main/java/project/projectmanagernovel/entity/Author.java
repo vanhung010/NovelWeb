@@ -8,6 +8,16 @@ public class Author {
     private String pername; //kí danh
     private double balance;
     private int totalView;//không có trong sql
+    private int totalNovel;
+
+    public int getTotalNovel() {
+        return totalNovel;
+    }
+
+    public void setTotalNovel(int totalNovel) {
+        this.totalNovel = totalNovel;
+    }
+
     private List<WithdrawalRequest> withdrawalRequests;
 
 

@@ -1,6 +1,7 @@
 package project.projectmanagernovel.dao;
 
 import project.projectmanagernovel.entity.Chapter;
+import project.projectmanagernovel.entity.Novel;
 import project.projectmanagernovel.util.DBConnect;
 
 import java.sql.Connection;
@@ -158,5 +159,39 @@ public class ChapterDao {
             throw new RuntimeException("lỗi data base"+ e.getMessage());
         }
         return nextIdChapter;
+    }
+
+    public List<Chapter> getFourChapterUpdateRecentByAuthor(int idAuthor){
+        List<Chapter> chapterList = new ArrayList<>();
+        String query = "SELECT c.id_chapter, c.id_novel, c.chapter_number, c.title AS titlechap, n.title AS titlenovel, c.view_count, c.create_at::date " +
+                "FROM chapter AS c " +
+                "LEFT JOIN novel AS n ON c.id_novel = n.id_novel " +
+                "WHERE c.id_author = ? "  +
+                "LIMIT 4";
+        try(Connection connection = DBConnect.getConnection();
+        PreparedStatement preparedStatement = connection.prepareStatement(query)){
+            preparedStatement.setInt(1, idAuthor);
+            try(ResultSet resultSet = preparedStatement.executeQuery()){
+
+                while (resultSet.next()){
+                Chapter chapter = new Chapter();
+                    Novel novel = new Novel();
+                    novel.setTitle(resultSet.getString("titlenovel"));
+
+                chapter.setIdChapter(resultSet.getInt("id_chapter"));
+                chapter.setChapterNumber(resultSet.getInt("chapter_number"));
+                chapter.setTitle(resultSet.getString("titlechap"));
+                chapter.setViewCount(resultSet.getInt("view_count"));
+                chapter.setCreate(resultSet.getDate("create_at").toLocalDate());
+                chapter.setNovel(novel);
+
+                chapterList.add(chapter);
+                }
+            }
+        }
+        catch(SQLException e){
+            e.printStackTrace();
+        }
+        return  chapterList;
     }
 }

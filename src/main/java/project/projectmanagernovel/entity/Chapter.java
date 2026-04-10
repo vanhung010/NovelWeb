@@ -1,5 +1,9 @@
 package project.projectmanagernovel.entity;
 
+import jakarta.ejb.Local;
+
+import java.time.LocalDate;
+
 public class Chapter {
     private int idChapter;
     private Novel novel;
@@ -8,6 +12,15 @@ public class Chapter {
     private String content;
     private int viewCount;
     private int wordCount;
+    private LocalDate create;
+
+    public LocalDate getCreate() {
+        return create;
+    }
+
+    public void setCreate(LocalDate create) {
+        this.create = create;
+    }
 
     public void setWordCount(int wordCount) {
         this.wordCount = wordCount;
