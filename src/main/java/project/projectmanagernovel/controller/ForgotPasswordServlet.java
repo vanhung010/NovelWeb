@@ -14,7 +14,7 @@ public class ForgotPasswordServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String msg = req.getParameter("msg");
-        if (!"null".equals(msg)) {
+        if (msg != null) {
 
             if (msg.equals("notequal")) {
                 req.setAttribute("errorMSG", "Mật khẩu xác nhận không khớp.");

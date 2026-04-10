@@ -6,9 +6,18 @@
     <!-- Search Results Header -->
     <div class="search-header">
         <h1 class="search-title">Kết Quả Tìm Kiếm</h1>
-        <p class="search-query" id="search-query"></p>
+        <p class="search-query" id="search-query">
+            <c:choose>
+                <c:when test="${not empty key}">
+                    Từ khóa: <span><c:out value="${key}"/></span>
+                </c:when>
+                <c:otherwise>
+                    Từ khóa: <span>Tất cả</span>
+                </c:otherwise>
+            </c:choose>
+        </p>
         <p class="search-results-count" id="results-count">
-            Tìm thấy <span id="count">0</span> kết quả
+            Tìm thấy <span id="count"><c:out value="${empty totalResults ? 0 : totalResults}"/></span> kết quả
         </p>
     </div>
 
@@ -55,100 +64,30 @@
     <div class="search-results">
         <div id="results-container" class="results-grid">
             <!-- Results will be loaded here -->
-            <c:forEach items="${listnovel}" ></c:forEach>
+            <c:forEach items="${listnovel}" var="c" >
+                <a>
 
-            <div class="novel-card">
-                <div class="novel-cover" style="background-color: #94a3b8">
-                    Cover
-                </div>
-                <div class="novel-info">
-                    <h3 class="novel-title">Quang Âm Chi Ngoại</h3>
-                    <p class="novel-author">Nhĩ Căn</p>
-                    <p class="novel-description">
-                        Một bộ truyện huyền huyễn đầy kịch tính và những bất ngờ...
-                    </p>
-                    <div class="novel-meta">
-                        <span class="novel-category">Huyền Huyễn</span>
-                        <span class="novel-status">Hoàn Thành</span>
-                        <span class="novel-rating">⭐ 4.6</span>
-                    </div>
-                </div>
-            </div>
+                        <div class="novel-card">
+                            <div class="novel-cover" style="background-color: #94a3b8">
+                                Cover
+                            </div>
+                            <div class="novel-info">
+                                <h3 class="novel-title"><c:out value="${c.title}"/> </h3>
+                                <p class="novel-author"><c:out value="${c.author.pername}"/></p>
+                                <p class="novel-description">
+                                    <c:out value="${c.description}"/>
+                                </p>
+                                <div class="novel-meta">
+                                    <span class="novel-category"><c:out value="${c.categoryList[0].name}"/></span>
+                                    <span class="novel-status"><c:out value="${c.status}"/></span>
 
-            <div class="novel-card">
-                <div class="novel-cover" style="background-color: #64748b">
-                    Cover
-                </div>
-                <div class="novel-info">
-                    <h3 class="novel-title">Đại Phụng Đả Canh Nhân</h3>
-                    <p class="novel-author">Mại Báo Tiểu Lang Quân</p>
-                    <p class="novel-description">
-                        Câu chuyện về những chiến binh dũng cảm và danh dự...
-                    </p>
-                    <div class="novel-meta">
-                        <span class="novel-category">Võng Du</span>
-                        <span class="novel-status">Đang Tiến Hành</span>
-                        <span class="novel-rating">⭐ 4.5</span>
-                    </div>
-                </div>
-            </div>
+                                </div>
+                            </div>
+                        </div>
+                </a>
+            </c:forEach>
 
-            <div class="novel-card">
-                <div class="novel-cover" style="background-color: #475569">
-                    Cover
-                </div>
-                <div class="novel-info">
-                    <h3 class="novel-title">Quỷ Bí Chi Chủ</h3>
-                    <p class="novel-author">Ái Tiềm Thủy Đích Ô Tặc</p>
-                    <p class="novel-description">
-                        Một câu chuyện bí ẩn lôi cuốn về thế giới quỷ quái...
-                    </p>
-                    <div class="novel-meta">
-                        <span class="novel-category">Linh Dị</span>
-                        <span class="novel-status">Hoàn Thành</span>
-                        <span class="novel-rating">⭐ 4.7</span>
-                    </div>
-                </div>
-            </div>
-
-            <div class="novel-card">
-                <div class="novel-cover" style="background-color: #334155">
-                    Cover
-                </div>
-                <div class="novel-info">
-                    <h3 class="novel-title">Ta Là Thần Hào</h3>
-                    <p class="novel-author">Vô Danh</p>
-                    <p class="novel-description">
-                        Một tác phẩm đô thị hiện đại với những tình tiết gay cấn...
-                    </p>
-                    <div class="novel-meta">
-                        <span class="novel-category">Đô Thị</span>
-                        <span class="novel-status">Đang Tiến Hành</span>
-                        <span class="novel-rating">⭐ 4.4</span>
-                    </div>
-                </div>
-            </div>
-
-            <div class="novel-card">
-                <div class="novel-cover" style="background-color: #1e293b">
-                    Cover
-                </div>
-                <div class="novel-info">
-                    <h3 class="novel-title">Vạn Cổ Thần Đế</h3>
-                    <p class="novel-author">Phi Thiên Cá</p>
-                    <p class="novel-description">
-                        Kinh điển tiên hiệp toàn từ với những bí kíp võ công tối
-                        thượng...
-                    </p>
-                    <div class="novel-meta">
-                        <span class="novel-category">Tiên Hiệp</span>
-                        <span class="novel-status">Hoàn Thành</span>
-                        <span class="novel-rating">⭐ 4.9</span>
-                    </div>
-                </div>
-            </div>
         </div>
-
         <!-- No Results Message -->
         <div id="no-results" class="no-results" style="display: none">
             <div class="no-results-icon">🔍</div>
@@ -158,12 +97,44 @@
     </div>
 
     <!-- Pagination -->
-    <div class="pagination" id="pagination">
-        <button class="pagination-btn prev-btn" disabled>← Trước</button>
-        <div class="pagination-info">
-            <span id="current-page">1</span> / <span id="total-pages">5</span>
+    <c:if test="${totalPages > 1}">
+        <div class="pagination" id="pagination">
+            <c:choose>
+                <c:when test="${currentPage > 1}">
+                    <c:url value="search" var="prevUrl">
+                        <c:param name="key" value="${key}"/>
+                        <c:param name="page" value="${currentPage - 1}"/>
+                    </c:url>
+                    <a class="pagination-btn prev-btn" href="${prevUrl}">← Trước</a>
+                </c:when>
+                <c:otherwise>
+                    <span class="pagination-btn prev-btn disabled">← Trước</span>
+                </c:otherwise>
+            </c:choose>
+
+            <div class="pagination-pages">
+                <c:forEach begin="1" end="${totalPages}" var="i">
+                    <c:url value="search" var="pageUrl">
+                        <c:param name="key" value="${key}"/>
+                        <c:param name="page" value="${i}"/>
+                    </c:url>
+                    <a class="pagination-btn page-btn ${i == currentPage ? 'active' : ''}" href="${pageUrl}">${i}</a>
+                </c:forEach>
+            </div>
+
+            <c:choose>
+                <c:when test="${currentPage < totalPages}">
+                    <c:url value="search" var="nextUrl">
+                        <c:param name="key" value="${key}"/>
+                        <c:param name="page" value="${currentPage + 1}"/>
+                    </c:url>
+                    <a class="pagination-btn next-btn" href="${nextUrl}">Tiếp →</a>
+                </c:when>
+                <c:otherwise>
+                    <span class="pagination-btn next-btn disabled">Tiếp →</span>
+                </c:otherwise>
+            </c:choose>
         </div>
-        <button class="pagination-btn next-btn">Tiếp →</button>
-    </div>
+    </c:if>
 </main>
 <jsp:include page="../../include/footer.jsp" />

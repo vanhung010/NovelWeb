@@ -9,32 +9,69 @@ import project.projectmanagernovel.dao.NovelDao;
 import project.projectmanagernovel.entity.Novel;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
-@WebServlet(urlPatterns = {"/seach"})
+@WebServlet(urlPatterns = {"/search"})
 public class SearchServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        String key = (String) req.getParameter("key");
+        String key = req.getParameter("key");
         NovelDao novelDao = new NovelDao();
 
-        List<Novel> novelList = novelDao.getNovelBySearch(key);
+        int currentPage = 1;
+        int pageSize = 12;
+        int totalResults = 0;
+        int totalPages = 0;
+        List<Novel> novelList = new ArrayList<>();
 
-        //Trường hợp không nhập đá về trang chủ
-        if(key.trim().isEmpty() || key == null){
-            req.getRequestDispatcher("views/public/search.jsp");
+        if (key != null) {
+            key = key.trim();
+        }
+
+        if (key == null || key.isEmpty()) {
+            req.setAttribute("listnovel", novelList);
+            req.setAttribute("currentPage", currentPage);
+            req.setAttribute("totalPages", totalPages);
+            req.setAttribute("totalResults", totalResults);
+            req.setAttribute("key", "");
+            req.getRequestDispatcher("views/public/search.jsp").forward(req, resp);
             return;
         }
 
-        //Trường hợp không có truyện phù hợp
-        if(novelList.isEmpty()){
+        String pageParam = req.getParameter("page");
+        if (pageParam != null) {
+            try {
+                currentPage = Integer.parseInt(pageParam);
+            } catch (NumberFormatException ignored) {
+                currentPage = 1;
+            }
+        }
+        if (currentPage < 1) {
+            currentPage = 1;
+        }
+
+        totalResults = novelDao.countNovelBySearch(key);
+        totalPages = (int) Math.ceil((double) totalResults / pageSize);
+
+        if (totalPages > 0 && currentPage > totalPages) {
+            currentPage = totalPages;
+        }
+
+        if (totalResults > 0) {
+            novelList = novelDao.getNovelBySearchPaged(key, currentPage, pageSize);
+        }
+
+        if (totalResults == 0) {
             req.setAttribute("error", "Không tìm thấy truyện");
-           req.getRequestDispatcher("views/public/search.jsp").forward(req, resp);
-           return;
         }
 
         req.setAttribute("listnovel", novelList);
-        req.getRequestDispatcher("views/public/search.jsp");
+        req.setAttribute("currentPage", currentPage);
+        req.setAttribute("totalPages", totalPages);
+        req.setAttribute("totalResults", totalResults);
+        req.setAttribute("key", key);
+        req.getRequestDispatcher("views/public/search.jsp").forward(req, resp);
 
     }
 }

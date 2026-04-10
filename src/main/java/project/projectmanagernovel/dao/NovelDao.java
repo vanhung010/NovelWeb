@@ -376,6 +376,82 @@ public class NovelDao {
             }
     }
 
+    public int countNovelBySearch(String key) {
+        if (key == null || key.trim().isEmpty()) {
+            return 0;
+        }
+        String query = "SELECT COUNT(*) FROM novel WHERE title ILIKE ?";
+        try (Connection connection = DBConnect.getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+            preparedStatement.setString(1, "%" + key.trim() + "%");
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                if (resultSet.next()) {
+                    return resultSet.getInt(1);
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return 0;
+    }
+
+    public List<Novel> getNovelBySearchPaged(String key, int page, int size) {
+        List<Novel> result = new ArrayList<>();
+        if (key == null || key.trim().isEmpty()) {
+            return result;
+        }
+
+        int safePage = Math.max(page, 1);
+        int safeSize = Math.max(size, 1);
+        int offset = (safePage - 1) * safeSize;
+
+        String query = "SELECT n.title, n.cover_image, n.description, n.status, a.pen_name, n.id_novel, a.id_author " +
+                "FROM novel AS n " +
+                "LEFT JOIN author AS a ON a.id_author = n.id_author " +
+                "WHERE n.title ILIKE ? " +
+                "ORDER BY n.id_novel DESC " +
+                "LIMIT ? OFFSET ?";
+        try (Connection connection = DBConnect.getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+            preparedStatement.setString(1, "%" + key.trim() + "%");
+            preparedStatement.setInt(2, safeSize);
+            preparedStatement.setInt(3, offset);
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                while (resultSet.next()) {
+                    Author author = new Author();
+                    Novel novel = new Novel();
+                    CategoryDao categoryDao = new CategoryDao();
+
+                    String titleNovel = resultSet.getString("title");
+                    String coverImage = resultSet.getString("cover_image");
+                    String description = resultSet.getString("description");
+                    String penName = resultSet.getString("pen_name");
+                    String status = resultSet.getString("status");
+                    int idNovel = resultSet.getInt("id_novel");
+                    int idAuthor = resultSet.getInt("id_author");
+
+                    List<Category> categoryList = categoryDao.getListCategoryByIdNovel(idNovel);
+
+                    author.setPername(penName);
+                    author.setIdAuthor(idAuthor);
+
+                    novel.setIdNovel(idNovel);
+                    novel.setTitle(titleNovel);
+                    novel.setCoverImage(coverImage);
+                    novel.setDescription(description);
+                    novel.setAuthor(author);
+                    novel.setStatus(NovelStatus.valueOf(status.toUpperCase()));
+                    novel.getCategoryList().addAll(categoryList);
+
+                    result.add(novel);
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return result;
+    }
+
     public List<Novel> getNovelBySearch(String key){
         List<Novel> result = new ArrayList<>();
         String query = "SELECT n.title, n.cover_image, n.description, n.status, a.pen_name, n.id_novel, a.id_author " +
